@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {
+      "methods": ["POST"],
+      "pattern": "/api/v1/auth/login",
+      "roles": []
+    }
+  ]
+}
