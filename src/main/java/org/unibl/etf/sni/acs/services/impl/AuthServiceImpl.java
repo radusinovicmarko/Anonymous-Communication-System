@@ -10,12 +10,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.sni.acs.exceptions.UnauthorizedException;
-import org.unibl.etf.sni.acs.models.dto.JwtUserDTO;
-import org.unibl.etf.sni.acs.models.dto.LoginRequestDTO;
-import org.unibl.etf.sni.acs.models.dto.LoginResponseDTO;
+import org.unibl.etf.sni.acs.models.dto.*;
 import org.unibl.etf.sni.acs.models.entities.UserEntity;
 import org.unibl.etf.sni.acs.repositories.UserRepository;
 import org.unibl.etf.sni.acs.services.AuthService;
+import org.unibl.etf.sni.acs.services.ChatService;
 
 import java.util.Date;
 
@@ -24,16 +23,18 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final ModelMapper mapper;
+    private final ChatService chatService;
     @Value("${authorization.token.expiration-time}")
     private String tokenExpirationTime;
     @Value("${authorization.token.secret}")
     private String tokenSecret;
 
     @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, ModelMapper mapper) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, ModelMapper mapper, ChatService chatService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.chatService = chatService;
     }
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {
@@ -43,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
             JwtUserDTO jwtUser = (JwtUserDTO) auth.getPrincipal();
             LoginResponseDTO response = mapper.map(userEntity, LoginResponseDTO.class);
             response.setToken(generateJwt(jwtUser));
+            chatService.addUser(mapper.map(userEntity, UserDTO.class));
             return response;
         } catch (Exception exception) {
             throw new UnauthorizedException();

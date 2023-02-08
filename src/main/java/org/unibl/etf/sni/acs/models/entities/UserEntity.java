@@ -23,6 +23,12 @@ public class UserEntity {
     @Basic
     @Column(name = "password", nullable = false, length = 150)
     private String password;
+    @Basic
+    @Column(name = "certificate", nullable = false)
+    private byte[] certificate;
+    @Basic
+    @Column(name = "keystore_password", nullable = false, length = 150)
+    private String keystore_password;
 
     @Override
     public boolean equals(Object o) {

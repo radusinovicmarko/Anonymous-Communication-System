@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.sni.acs.exceptions.UnauthorizedException;
-import org.unibl.etf.sni.acs.models.dto.JwtUserDTO;
-import org.unibl.etf.sni.acs.models.dto.LoginRequestDTO;
-import org.unibl.etf.sni.acs.models.dto.LoginResponseDTO;
-import org.unibl.etf.sni.acs.models.dto.UserDTO;
+import org.unibl.etf.sni.acs.models.dto.*;
 import org.unibl.etf.sni.acs.services.AuthService;
+import org.unibl.etf.sni.acs.services.ChatService;
 import org.unibl.etf.sni.acs.services.UserService;
 
 @RestController
@@ -16,17 +14,22 @@ import org.unibl.etf.sni.acs.services.UserService;
 public class AuthController {
     private AuthService authService;
     private UserService userService;
+    private ChatService chatService;
 
     @Autowired
-    public AuthController(AuthService authService, UserService userService) {
+    public AuthController(AuthService authService, UserService userService, ChatService chatService) {
         this.authService = authService;
         this.userService = userService;
+        this.chatService = chatService;
     }
 
     @PostMapping("/login")
     public LoginResponseDTO login(@RequestBody LoginRequestDTO loginRequest) {
         return authService.login(loginRequest);
     }
+
+    @PostMapping("/logout")
+    public void logout(@RequestBody LogoutRequestDTO logoutRequest) { chatService.removeUser(logoutRequest.getUsername()); }
 
     @GetMapping("/state")
     public LoginResponseDTO state(Authentication authentication) {

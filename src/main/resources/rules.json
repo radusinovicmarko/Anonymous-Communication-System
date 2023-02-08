@@ -4,6 +4,16 @@
       "methods": ["POST"],
       "pattern": "/api/v1/auth/login",
       "roles": []
+    },
+    {
+      "methods": ["POST"],
+      "pattern": "/api/v1/auth/logout",
+      "roles": ["REGISTERED_USER"]
+    },
+    {
+      "methods": ["GET", "POST"],
+      "pattern": "/chat/**",
+      "roles": []
     }
   ]
 }
