@@ -31,7 +31,7 @@ import java.util.List;
 public class WebSecurityConfig {
     private final AuthorizationFilter authorizationFilter;
     private final UserDetailsService userDetailsService;
-    private final String FRONT_BASE_URL = "https://localhost:3000";
+    private final String FRONT_BASE_URL = "https://chat:3000";
 
     @Autowired
     public WebSecurityConfig(AuthorizationFilter authorizationFilter, UserDetailsService userDetailsService) {

@@ -76,6 +76,11 @@ public class ChatServiceImpl implements ChatService {
         }
     }
 
+    @Override
+    public List<UserDTO> getActiveUsers() {
+        return users;
+    }
+
     @JmsListener(destination = "${mq.queue.receive}")
     public void receiveMessage(TextMessage message) {
         ObjectMapper mapper = new ObjectMapper();

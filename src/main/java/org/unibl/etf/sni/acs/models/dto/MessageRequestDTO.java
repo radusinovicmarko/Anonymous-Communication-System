@@ -6,6 +6,8 @@ import lombok.Data;
 public class MessageRequestDTO {
     private String senderUsername;
     private String receiverUsername;
+    private Integer noSegments;
+    private Integer segmentSerial;
     private String data;
     private Boolean syn;
     private Boolean sendCert;
@@ -13,4 +15,5 @@ public class MessageRequestDTO {
     private Boolean sendKey;
     private Boolean ackKey;
     private Boolean fin;
+    private Boolean image;
 }
