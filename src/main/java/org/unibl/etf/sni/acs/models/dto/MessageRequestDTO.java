@@ -16,4 +16,5 @@ public class MessageRequestDTO {
     private Boolean ackKey;
     private Boolean fin;
     private Boolean image;
+    private String sign;
 }
